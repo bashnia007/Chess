@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum ChessPieceType
@@ -48,5 +49,17 @@ public class ChessPiece : MonoBehaviour
         {
             transform.localScale = desiredScale;
         }
+    }
+
+    public List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
+    {
+        List<Vector2Int> result = new List<Vector2Int>();
+
+        result.Add(new Vector2Int(3, 3));
+        result.Add(new Vector2Int(3, 4));
+        result.Add(new Vector2Int(4, 3));
+        result.Add(new Vector2Int(4, 4));
+
+        return result;
     }
 }
