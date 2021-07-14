@@ -8,6 +8,7 @@ public class Bishop : ChessPiece
     {
         var result = new List<Vector2Int>();
 
+        // Up right
         for (int i = 1; i < tileCountX; i++)
         {
             int x = currentX + i;
@@ -26,6 +27,7 @@ public class Bishop : ChessPiece
             result.Add(new Vector2Int(x, y));
         }
 
+        // Up left
         for (int i = 1; i < tileCountX; i++)
         {
             int x = currentX - i;
@@ -44,6 +46,7 @@ public class Bishop : ChessPiece
             result.Add(new Vector2Int(x, y));
         }
 
+        // Down right
         for (int i = 1; i < tileCountX; i++)
         {
             int x = currentX + i;
@@ -62,6 +65,7 @@ public class Bishop : ChessPiece
             result.Add(new Vector2Int(x, y));
         }
 
+        // Down left
         for (int i = 1; i < tileCountX; i++)
         {
             int x = currentX - i;
