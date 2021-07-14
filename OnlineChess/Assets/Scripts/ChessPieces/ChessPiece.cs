@@ -62,4 +62,9 @@ public class ChessPiece : MonoBehaviour
 
         return result;
     }
+
+    protected bool IsOnBoard(int x, int y, int tileSizeX, int tileSizeY)
+    {
+        return x >= 0 && x < tileSizeX && y >= 0 && y < tileSizeY;
+    }
 }
