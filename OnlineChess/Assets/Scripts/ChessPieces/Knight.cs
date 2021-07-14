@@ -8,15 +8,17 @@ public class Knight : ChessPiece
     {
         List<Vector2Int> result = new List<Vector2Int>();
 
-        List<Vector2Int> moves = new List<Vector2Int>();
-        moves.Add(new Vector2Int(1, 2));
-        moves.Add(new Vector2Int(2, 1));
-        moves.Add(new Vector2Int(-1, 2));
-        moves.Add(new Vector2Int(2, -1));
-        moves.Add(new Vector2Int(1, -2));
-        moves.Add(new Vector2Int(-2, 1));
-        moves.Add(new Vector2Int(-1, -2));
-        moves.Add(new Vector2Int(-2, -1));
+        List<Vector2Int> moves = new List<Vector2Int>
+        {
+            new Vector2Int(1, 2),
+            new Vector2Int(2, 1),
+            new Vector2Int(-1, 2),
+            new Vector2Int(2, -1),
+            new Vector2Int(1, -2),
+            new Vector2Int(-2, 1),
+            new Vector2Int(-1, -2),
+            new Vector2Int(-2, -1)
+        };
 
         foreach (var move in moves)
         {
@@ -25,7 +27,7 @@ public class Knight : ChessPiece
 
             if (IsOnBoard(x, y, tileCountX, tileCountY) && (board[x, y] == null || board[x, y].team != team))
             {
-                result.Add(new Vector2Int(x, y));
+                result.Add(move);
             }
         }
 
