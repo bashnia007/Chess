@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ public class Pawn : ChessPiece
         List<Vector2Int> result = new List<Vector2Int>();
 
         int direction = (team == 0) ? 1 : -1;
+
 
         // One step forward
         if (board[currentX, currentY + direction] == null)
