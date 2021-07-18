@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,5 +63,10 @@ public class ChessPiece : MonoBehaviour
     protected bool IsOnBoard(int x, int y, int tileSizeX, int tileSizeY)
     {
         return x >= 0 && x < tileSizeX && y >= 0 && y < tileSizeY;
+    }
+
+    public virtual SpecialMove GetSpecialMoves(ref ChessPiece[,] chessPieces, ref List<Vector2Int[]> moveList, ref List<Vector2Int> availableMoves)
+    {
+        return SpecialMove.None;
     }
 }
