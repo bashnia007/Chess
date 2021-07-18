@@ -25,6 +25,7 @@ public class ChessPiece : MonoBehaviour
     private void Start()
     {
         desiredScale = transform.localScale;
+        transform.rotation = Quaternion.Euler(team == 0 ? new Vector3(-90, 0, -90) : new Vector3(-90, 0, 90));
     }
 
     private void Update()
@@ -54,11 +55,6 @@ public class ChessPiece : MonoBehaviour
     public virtual List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
     {
         List<Vector2Int> result = new List<Vector2Int>();
-
-        result.Add(new Vector2Int(3, 3));
-        result.Add(new Vector2Int(3, 4));
-        result.Add(new Vector2Int(4, 3));
-        result.Add(new Vector2Int(4, 4));
 
         return result;
     }
