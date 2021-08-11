@@ -35,19 +35,19 @@ public class King : ChessPiece
     {
         SpecialMove r = SpecialMove.None;
 
-        var kingMove = moveList.Find(m => m[0].x == 4 && m[0].y == ((team == 0) ? 0 : 7));
-        var leftRock = moveList.Find(m => m[0].x == 0 && m[0].y == ((team == 0) ? 0 : 7));
-        var rightRock = moveList.Find(m => m[0].x == 7 && m[0].y == ((team == 0) ? 0 : 7));
+        var kingMove = moveList.Find(m => m[0].x == 4 && m[0].y == ((team == Team.White) ? 0 : 7));
+        var leftRock = moveList.Find(m => m[0].x == 0 && m[0].y == ((team == Team.White) ? 0 : 7));
+        var rightRock = moveList.Find(m => m[0].x == 7 && m[0].y == ((team == Team.White) ? 0 : 7));
 
         if (kingMove == null && currentX == 4)
         {
             // White team
-            if (team == 0)
+            if (team == Team.White)
             {
                 // Left Rock
                 if (leftRock == null)
                 {
-                    if (chessPieces[0, 0].type == ChessPieceType.Rook && chessPieces[0, 0].team == 0)
+                    if (chessPieces[0, 0].type == ChessPieceType.Rook && chessPieces[0, 0].team == Team.White)
                     {
                         if (chessPieces[3, 0] == null && chessPieces[2, 0] == null && chessPieces[1, 0] == null)
                         {
@@ -60,7 +60,7 @@ public class King : ChessPiece
                 // Right Rock
                 if (rightRock == null)
                 {
-                    if (chessPieces[7, 0].type == ChessPieceType.Rook && chessPieces[7, 0].team == 0)
+                    if (chessPieces[7, 0].type == ChessPieceType.Rook && chessPieces[7, 0].team == Team.White)
                     {
                         if (chessPieces[6, 0] == null && chessPieces[5, 0] == null)
                         {
@@ -75,7 +75,7 @@ public class King : ChessPiece
                 // Left Rock
                 if (leftRock == null)
                 {
-                    if (chessPieces[0, 7].type == ChessPieceType.Rook && chessPieces[0, 7].team == 1)
+                    if (chessPieces[0, 7].type == ChessPieceType.Rook && chessPieces[0, 7].team == Team.Black)
                     {
                         if (chessPieces[3, 7] == null && chessPieces[2, 7] == null && chessPieces[1, 7] == null)
                         {
@@ -88,7 +88,7 @@ public class King : ChessPiece
                 // Right Rock
                 if (rightRock == null)
                 {
-                    if (chessPieces[7, 7].type == ChessPieceType.Rook && chessPieces[7, 7].team == 1)
+                    if (chessPieces[7, 7].type == ChessPieceType.Rook && chessPieces[7, 7].team == Team.Black)
                     {
                         if (chessPieces[6, 7] == null && chessPieces[5, 7] == null)
                         {

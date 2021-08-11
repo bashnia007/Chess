@@ -7,7 +7,7 @@ public class Pawn : ChessPiece
     {
         List<Vector2Int> result = new List<Vector2Int>();
 
-        int direction = (team == 0) ? 1 : -1;
+        int direction = (team == Team.White) ? 1 : -1;
 
 
         // One step forward
@@ -20,12 +20,12 @@ public class Pawn : ChessPiece
         if (board[currentX, currentY + direction] == null)
         {
             // White
-            if (team == 0 && currentY == 1 && board[currentX, currentY + direction * 2] == null)
+            if (team == Team.White && currentY == 1 && board[currentX, currentY + direction * 2] == null)
             {
                 result.Add(new Vector2Int(currentX, currentY + direction * 2));
             }
             // Black
-            if (team == 1 && currentY == 6 && board[currentX, currentY + direction * 2] == null)
+            if (team == Team.Black && currentY == 6 && board[currentX, currentY + direction * 2] == null)
             {
                 result.Add(new Vector2Int(currentX, currentY + direction * 2));
             }
@@ -52,9 +52,9 @@ public class Pawn : ChessPiece
 
     public override SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> moveList, ref List<Vector2Int> availableMoves)
     {
-        int direction = (team == 0) ? 1 : -1;
+        int direction = (team == Team.White) ? 1 : -1;
 
-        if ((team == 0 && currentY == 6) || (team == 1 && currentY == 1))
+        if ((team == Team.White && currentY == 6) || (team == Team.Black && currentY == 1))
         {
             return SpecialMove.Promotion;
         }

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -91,8 +89,8 @@ public class Chessboard : MonoBehaviour
                 if (chessPieces[hitPosition.x, hitPosition.y] != null)
                 {
                     //Is it our turn?
-                    if (chessPieces[hitPosition.x, hitPosition.y].team == 0 && isWhiteTurn ||
-                        chessPieces[hitPosition.x, hitPosition.y].team == 1 && !isWhiteTurn)
+                    if (chessPieces[hitPosition.x, hitPosition.y].team == Team.White && isWhiteTurn ||
+                        chessPieces[hitPosition.x, hitPosition.y].team == Team.Black && !isWhiteTurn)
                     {
                         currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
 
@@ -201,43 +199,40 @@ public class Chessboard : MonoBehaviour
     {
         chessPieces = new ChessPiece[TILE_COUNT_X, TILE_COUNT_Y];
 
-        int whiteTeam = 0;
-        int blackTeam = 1;
-
         // White team
-        chessPieces[0, 0] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
-        chessPieces[1, 0] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
-        chessPieces[2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
-        chessPieces[3, 0] = SpawnSinglePiece(ChessPieceType.Queen, whiteTeam);
-        chessPieces[4, 0] = SpawnSinglePiece(ChessPieceType.King, whiteTeam);
-        chessPieces[5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
-        chessPieces[6, 0] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
-        chessPieces[7, 0] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
+        chessPieces[0, 0] = SpawnSinglePiece(ChessPieceType.Rook, Team.White);
+        chessPieces[1, 0] = SpawnSinglePiece(ChessPieceType.Knight, Team.White);
+        chessPieces[2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, Team.White);
+        chessPieces[3, 0] = SpawnSinglePiece(ChessPieceType.Queen, Team.White);
+        chessPieces[4, 0] = SpawnSinglePiece(ChessPieceType.King, Team.White);
+        chessPieces[5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, Team.White);
+        chessPieces[6, 0] = SpawnSinglePiece(ChessPieceType.Knight, Team.White);
+        chessPieces[7, 0] = SpawnSinglePiece(ChessPieceType.Rook, Team.White);
         for(int i = 0; i < TILE_COUNT_X; i++)
         {
-            chessPieces[i, 1] = SpawnSinglePiece(ChessPieceType.Pawn, whiteTeam);
+            chessPieces[i, 1] = SpawnSinglePiece(ChessPieceType.Pawn, Team.White);
         }
 
         // Black team
-        chessPieces[0, 7] = SpawnSinglePiece(ChessPieceType.Rook, blackTeam);
-        chessPieces[1, 7] = SpawnSinglePiece(ChessPieceType.Knight, blackTeam);
-        chessPieces[2, 7] = SpawnSinglePiece(ChessPieceType.Bishop, blackTeam);
-        chessPieces[3, 7] = SpawnSinglePiece(ChessPieceType.Queen, blackTeam);
-        chessPieces[4, 7] = SpawnSinglePiece(ChessPieceType.King, blackTeam);
-        chessPieces[5, 7] = SpawnSinglePiece(ChessPieceType.Bishop, blackTeam);
-        chessPieces[6, 7] = SpawnSinglePiece(ChessPieceType.Knight, blackTeam);
-        chessPieces[7, 7] = SpawnSinglePiece(ChessPieceType.Rook, blackTeam);
+        chessPieces[0, 7] = SpawnSinglePiece(ChessPieceType.Rook, Team.Black);
+        chessPieces[1, 7] = SpawnSinglePiece(ChessPieceType.Knight, Team.Black);
+        chessPieces[2, 7] = SpawnSinglePiece(ChessPieceType.Bishop, Team.Black);
+        chessPieces[3, 7] = SpawnSinglePiece(ChessPieceType.Queen, Team.Black);
+        chessPieces[4, 7] = SpawnSinglePiece(ChessPieceType.King, Team.Black);
+        chessPieces[5, 7] = SpawnSinglePiece(ChessPieceType.Bishop, Team.Black);
+        chessPieces[6, 7] = SpawnSinglePiece(ChessPieceType.Knight, Team.Black);
+        chessPieces[7, 7] = SpawnSinglePiece(ChessPieceType.Rook, Team.Black);
         for (int i = 0; i < TILE_COUNT_X; i++)
         {
-            chessPieces[i, 6] = SpawnSinglePiece(ChessPieceType.Pawn, blackTeam);
+            chessPieces[i, 6] = SpawnSinglePiece(ChessPieceType.Pawn, Team.Black);
         }
     }
-    private ChessPiece SpawnSinglePiece(ChessPieceType type, int team)
+    private ChessPiece SpawnSinglePiece(ChessPieceType type, Team team)
     {
         ChessPiece cp = Instantiate(prefabs[(int)type - 1], transform).GetComponent<ChessPiece>();
         cp.type = type;
         cp.team = team;
-        cp.GetComponent<MeshRenderer>().material = teamMaterials[team];
+        cp.GetComponent<MeshRenderer>().material = teamMaterials[(int)team];
         return cp;
     }
 
@@ -297,7 +292,7 @@ public class Chessboard : MonoBehaviour
             {
                 if (myPawn.currentY == enemyPawn.currentY - 1 || myPawn.currentY == enemyPawn.currentY + 1)
                 {
-                    if (enemyPawn.team == 0)
+                    if (enemyPawn.team == Team.White)
                     {
                         deadWhites.Add(enemyPawn);
                         enemyPawn.SetScale(Vector3.one * deathSize);
@@ -331,17 +326,17 @@ public class Chessboard : MonoBehaviour
 
             if (pawn.type == ChessPieceType.Pawn)
             {
-                if (pawn.team == 0 && lastMove[1].y == 7)
+                if (pawn.team == Team.White && lastMove[1].y == 7)
                 {
-                    ChessPiece newQueen = SpawnSinglePiece(ChessPieceType.Queen, 0);
+                    ChessPiece newQueen = SpawnSinglePiece(ChessPieceType.Queen, Team.White);
                     newQueen.transform.position = chessPieces[lastMove[1].x, lastMove[1].y].transform.position;
                     Destroy(chessPieces[lastMove[1].x, lastMove[1].y].gameObject);
                     chessPieces[lastMove[1].x, lastMove[1].y] = newQueen;
                     PositionSinglePiece(lastMove[1].x, lastMove[1].y);
                 }
-                if (pawn.team == 1 && lastMove[1].y == 0)
+                if (pawn.team == Team.Black && lastMove[1].y == 0)
                 {
-                    ChessPiece newQueen = SpawnSinglePiece(ChessPieceType.Queen, 1);
+                    ChessPiece newQueen = SpawnSinglePiece(ChessPieceType.Queen, Team.Black);
                     newQueen.transform.position = chessPieces[lastMove[1].x, lastMove[1].y].transform.position;
                     Destroy(chessPieces[lastMove[1].x, lastMove[1].y].gameObject);
                     chessPieces[lastMove[1].x, lastMove[1].y] = newQueen;
@@ -489,7 +484,7 @@ public class Chessboard : MonoBehaviour
     private bool CheckForCheckmate()
     {
         var lastMove = moveList[moveList.Count - 1];
-        int targetTeam = (chessPieces[lastMove[1].x, lastMove[1].y].team == 0) ? 1 : 0;
+        Team targetTeam = (chessPieces[lastMove[1].x, lastMove[1].y].team == Team.White) ? Team.Black : Team.White;
 
         List<ChessPiece> attackingPieces = new List<ChessPiece>();
         List<ChessPiece> defendingPieces = new List<ChessPiece>();
@@ -546,14 +541,14 @@ public class Chessboard : MonoBehaviour
     }
 
     // Checkmate
-    private void CheckMate(int team)
+    private void CheckMate(Team team)
     {
         DisplayVictory(team);
     }
-    private void DisplayVictory(int winningTeam)
+    private void DisplayVictory(Team winningTeam)
     {
         victoryScreen.SetActive(true);
-        victoryScreen.transform.GetChild(winningTeam).gameObject.SetActive(true);
+        victoryScreen.transform.GetChild((int)winningTeam).gameObject.SetActive(true);
     }
     public void OnResetButton()
     {
@@ -635,11 +630,11 @@ public class Chessboard : MonoBehaviour
             }
 
             // If it's the enemy piece
-            if (otherCp.team == 0)
+            if (otherCp.team == Team.White)
             {
                 if (otherCp.type == ChessPieceType.King)
                 {
-                    CheckMate(1);
+                    CheckMate(Team.Black);
                 }
 
                 deadWhites.Add(otherCp);
@@ -655,7 +650,7 @@ public class Chessboard : MonoBehaviour
             {
                 if (otherCp.type == ChessPieceType.King)
                 {
-                    CheckMate(0);
+                    CheckMate(Team.White);
                 }
                 deadBlacks.Add(otherCp);
                 otherCp.SetScale(Vector3.one * deathSize);

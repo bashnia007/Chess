@@ -13,9 +13,15 @@ public enum ChessPieceType
     King = 6
 }
 
+public enum Team
+{
+    White = 0,
+    Black = 1
+}
+
 public class ChessPiece : MonoBehaviour
 {
-    public int team;
+    public Team team;
     public int currentX;
     public int currentY;
     public ChessPieceType type;
@@ -26,7 +32,7 @@ public class ChessPiece : MonoBehaviour
     private void Start()
     {
         desiredScale = transform.localScale;
-        transform.rotation = Quaternion.Euler(team == 0 ? new Vector3(-90, 0, -90) : new Vector3(-90, 0, 90));
+        transform.rotation = Quaternion.Euler(team == Team.White ? new Vector3(-90, 0, -90) : new Vector3(-90, 0, 90));
     }
 
     private void Update()
