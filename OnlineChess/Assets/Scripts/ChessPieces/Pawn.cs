@@ -94,4 +94,14 @@ public class Pawn : ChessPiece
 
         return SpecialMove.None;
     }
+
+    public override void SetPosition(Vector3 position, bool force = false)
+    {
+        position += Vector3.up * 2f;
+        desiredPosition = position;
+        if (force)
+        {
+            transform.position = desiredPosition;
+        }
+    }
 }

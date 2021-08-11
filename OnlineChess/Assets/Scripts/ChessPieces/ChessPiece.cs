@@ -20,7 +20,7 @@ public class ChessPiece : MonoBehaviour
     public int currentY;
     public ChessPieceType type;
 
-    private Vector3 desiredPosition;
+    protected Vector3 desiredPosition;
     private Vector3 desiredScale;
 
     private void Start()
