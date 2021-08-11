@@ -59,7 +59,7 @@ public class ChessPiece : MonoBehaviour
         }
     }
 
-    public virtual List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
+    public virtual List<Vector2Int> GetAvailableMoves(ChessPiece[,] board, int tileCountX, int tileCountY)
     {
         List<Vector2Int> result = new List<Vector2Int>();
 

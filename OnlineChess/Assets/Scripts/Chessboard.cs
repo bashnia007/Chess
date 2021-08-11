@@ -76,7 +76,7 @@ public class Chessboard : MonoBehaviour
             // If we were already hovering a tile, change the previous one
             if (currentHover != hitPosition)
             {
-                tiles[currentHover.x, currentHover.y].layer = (ContainsValidMove(ref availableMoves, currentHover))
+                tiles[currentHover.x, currentHover.y].layer = (ContainsValidMove(availableMoves, currentHover))
                     ? LayerMask.NameToLayer("Highlight")
                     : LayerMask.NameToLayer("Tile");
                 currentHover = hitPosition;
@@ -95,7 +95,7 @@ public class Chessboard : MonoBehaviour
                         currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
 
                         // Get a list of available moves and highlight them
-                        availableMoves = currentlyDragging.GetAvailableMoves(ref chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
+                        availableMoves = currentlyDragging.GetAvailableMoves(chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
                         // Get a list of special moves
                         specialMove = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves);
 
@@ -125,7 +125,7 @@ public class Chessboard : MonoBehaviour
             if (currentHover != -Vector2Int.one)
             {
                 tiles[currentHover.x, currentHover.y].layer = 
-                    (ContainsValidMove(ref availableMoves, currentHover)) 
+                    (ContainsValidMove(availableMoves, currentHover)) 
                     ? LayerMask.NameToLayer("Highlight")
                     : LayerMask.NameToLayer("Tile");
                 currentHover = -Vector2Int.one;
@@ -401,9 +401,9 @@ public class Chessboard : MonoBehaviour
             }
         }
 
-        SimulateMoveForSinglePiece(currentlyDragging, ref availableMoves, targetKing);
+        SimulateMoveForSinglePiece(currentlyDragging, availableMoves, targetKing);
     }
-    private void SimulateMoveForSinglePiece(ChessPiece cp, ref List<Vector2Int> moves, ChessPiece targetKing)
+    private void SimulateMoveForSinglePiece(ChessPiece cp, List<Vector2Int> moves, ChessPiece targetKing)
     {
         // Save the current values
         int actualX = cp.currentX;
@@ -458,7 +458,7 @@ public class Chessboard : MonoBehaviour
             List<Vector2Int> simMoves = new List<Vector2Int>();
             for (int a = 0; a < simAttackingPieces.Count; a++)
             {
-                var pieceMoves = simAttackingPieces[a].GetAvailableMoves(ref simulation, TILE_COUNT_X, TILE_COUNT_Y);
+                var pieceMoves = simAttackingPieces[a].GetAvailableMoves(simulation, TILE_COUNT_X, TILE_COUNT_Y);
                 for (int b = 0; b < pieceMoves.Count; b++)
                 {
                     simMoves.Add(pieceMoves[b]);
@@ -466,7 +466,7 @@ public class Chessboard : MonoBehaviour
             }
 
             // If the king is in trouble, remove the move
-            if (ContainsValidMove(ref simMoves, kingPositionThisSim))
+            if (ContainsValidMove(simMoves, kingPositionThisSim))
             {
                 movesToRemove.Add(moves[i]);
             }
@@ -515,7 +515,7 @@ public class Chessboard : MonoBehaviour
         List<Vector2Int> currentAvailableMoves = new List<Vector2Int>();
         for (int i = 0; i < attackingPieces.Count; i++)
         {
-            var pieceMoves = attackingPieces[i].GetAvailableMoves(ref chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
+            var pieceMoves = attackingPieces[i].GetAvailableMoves(chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
             for (int b = 0; b < pieceMoves.Count; b++)
             {
                 currentAvailableMoves.Add(pieceMoves[b]);
@@ -523,13 +523,13 @@ public class Chessboard : MonoBehaviour
         }
 
         // Are we in check now?
-        if (ContainsValidMove(ref currentAvailableMoves, new Vector2Int(targetKing.currentX, targetKing.currentY)))
+        if (ContainsValidMove(currentAvailableMoves, new Vector2Int(targetKing.currentX, targetKing.currentY)))
         {
             // King is under attack can we defend?
             for (int i = 0; i <defendingPieces.Count; i++)
             {
-                List<Vector2Int> defendingMoves = defendingPieces[i].GetAvailableMoves(ref chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
-                SimulateMoveForSinglePiece(defendingPieces[i], ref defendingMoves, targetKing);
+                List<Vector2Int> defendingMoves = defendingPieces[i].GetAvailableMoves(chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
+                SimulateMoveForSinglePiece(defendingPieces[i], defendingMoves, targetKing);
 
                 if (defendingMoves.Count != 0) return false;
             }
@@ -613,7 +613,7 @@ public class Chessboard : MonoBehaviour
     }
     private bool MoveTo(ChessPiece cp, int x, int y)
     {
-        if (!ContainsValidMove(ref availableMoves, new Vector2Int(x, y)))
+        if (!ContainsValidMove(availableMoves, new Vector2Int(x, y)))
         {
             return false;
         }
@@ -679,7 +679,7 @@ public class Chessboard : MonoBehaviour
 
         return true;
     }
-    private bool ContainsValidMove(ref List<Vector2Int> moves, Vector2 position)
+    private bool ContainsValidMove(List<Vector2Int> moves, Vector2 position)
     {
         for (int i = 0; i < moves.Count; i++)
         {
