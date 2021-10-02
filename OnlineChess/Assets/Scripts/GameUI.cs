@@ -1,6 +1,13 @@
 using TMPro;
 using UnityEngine;
 
+public enum CameraAngle
+{
+    menu = 0,
+    whiteTeam = 1,
+    blackTeam = 2
+}
+
 public class GameUI : MonoBehaviour
 {
     public static GameUI Instance { get; set; }
@@ -10,10 +17,21 @@ public class GameUI : MonoBehaviour
 
     [SerializeField] private Animator menuAnimator;
     [SerializeField] private TMP_InputField addressInput;
+    [SerializeField] private GameObject[] cameraAngles;
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    // Cameras
+    public void ChangeCamera(CameraAngle index)
+    {
+        for (int i = 0; i < cameraAngles.Length; i++)
+        {
+            cameraAngles[i].SetActive(false);
+        }
+        cameraAngles[(int)index].SetActive(true);
     }
 
     // Buttons
