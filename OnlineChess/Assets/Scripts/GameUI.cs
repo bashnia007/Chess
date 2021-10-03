@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -19,9 +20,12 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TMP_InputField addressInput;
     [SerializeField] private GameObject[] cameraAngles;
 
+    public Action<bool> SetLocalGame;
+
     private void Awake()
     {
         Instance = this;
+        RegisterEvents();
     }
 
     // Cameras
@@ -38,6 +42,7 @@ public class GameUI : MonoBehaviour
     public void OnLocalGameButton()
     {
         menuAnimator.SetTrigger("InGameMenu");
+        SetLocalGame?.Invoke(true);
         server.Init(8007);
         client.Init("127.0.0.1", 8007);
     }
@@ -49,6 +54,7 @@ public class GameUI : MonoBehaviour
 
     public void OnOnlineHostButton()
     {
+        SetLocalGame?.Invoke(false);
         server.Init(8007);
         client.Init("127.0.0.1", 8007);
         menuAnimator.SetTrigger("HostMenu");
@@ -56,6 +62,7 @@ public class GameUI : MonoBehaviour
 
     public void OnOnlineConnectButton()
     {
+        SetLocalGame?.Invoke(false);
         client.Init(addressInput.text, 8007);
     }
 
@@ -70,4 +77,21 @@ public class GameUI : MonoBehaviour
         client.Shutdown();
         menuAnimator.SetTrigger("OnlineMenu");
     }
+
+    #region
+    private void RegisterEvents()
+    {
+        NetUtility.C_START_GAME += OnStartGameClient;
+    }
+
+    private void UnregisterEvents()
+    {
+        NetUtility.C_START_GAME -= OnStartGameClient;
+    }
+    private void OnStartGameClient(NetMessage obj)
+    {
+        menuAnimator.SetTrigger("InGameMenu");
+    }
+
+    #endregion
 }
